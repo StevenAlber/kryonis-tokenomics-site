@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRYONIS: The Coherence Economy</title>
+    <title>KRYONIS: The Coherence Economy (Final Version)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0D1B2A;
-            color: #E0E1DD;
+            background-color: #0B0C10; /* kryonis.dark */
+            color: #E0E0E0; /* kryonis.text */
         }
         .card {
-            background-color: #1B263B;
-            border: 1px solid #415A77;
+            background-color: rgba(13, 13, 15, 0.5); /* Semi-transparent dark background */
+            border: 1px solid rgba(108, 99, 255, 0.2); /* kryonis.primary with opacity */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         .chart-container {
             position: relative;
@@ -33,11 +36,30 @@
                 height: 350px;
             }
         }
-        .number-highlight {
-            font-size: 4rem;
-            font-weight: 900;
-            line-height: 1;
-            color: #778DA9;
+        .roadmap-phase {
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border-bottom: 2px solid transparent;
+            color: #CCCCCC;
+        }
+        .roadmap-phase.active, .roadmap-phase:hover {
+            border-bottom: 2px solid #6C63FF; /* kryonis.primary */
+            color: #FFFFFF;
+        }
+         .roadmap-phase-content {
+            display: none;
+        }
+        .roadmap-phase-content.active {
+            display: block;
+        }
+        .kryonis-glow-subtle {
+             box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #6C63FF;
         }
     </style>
 </head>
@@ -45,227 +67,376 @@
 
     <div class="container mx-auto p-4 md:p-8">
 
-        <header class="text-center py-12 md:py-20 border-b border-gray-700">
-            <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight uppercase">KRYONIS <span class="text-[#778DA9]">(KRYONX)</span></h1>
-            <p class="mt-4 text-xl md:text-2xl text-[#E0E1DD] max-w-3xl mx-auto">The Civilizational Operating System for the Quantum Supremacy Grid</p>
+        <header class="text-center py-6 sticky top-0 z-50 bg-[#0B0C10]/80 backdrop-blur-md">
+            <nav class="flex justify-between items-center">
+                 <h2 class="text-2xl font-bold text-white">KRYONIS</h2>
+                 <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-[#E0E0E0]">
+                     <a href="#tokenomics" class="nav-link">Tokenomics</a>
+                     <a href="#roadmap" class="nav-link">Roadmap</a>
+                     <a href="#governance" class="nav-link">Governance</a>
+                     <a href="#contact" class="nav-link">Contact</a>
+                 </div>
+            </nav>
         </header>
 
-        <main class="py-12 md:py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <section class="text-center py-16 md:py-24 border-b border-white/10">
+            <h1 data-aos="fade-up" class="text-4xl md:text-6xl font-black text-white tracking-tight uppercase">KRYONIS <span class="text-[#8A7CFF]">(KRYONX)</span></h1>
+            <p data-aos="fade-up" data-aos-delay="200" class="mt-4 text-xl md:text-2xl text-[#E0E0E0] max-w-3xl mx-auto">The Civilizational Operating System for the Quantum Supremacy Grid</p>
+        </section>
 
-                <div class="card rounded-lg shadow-2xl p-6 md:col-span-2 lg:col-span-3">
-                    <h2 class="text-2xl font-bold text-white mb-4">Beyond Currency: A New Economic Paradigm</h2>
-                    <p class="text-[#E0E1DD]">The current economic model is fundamentally extractive, leading to resource depletion and social disharmony. KRYONIS introduces the Coherence Standard, a generative model where value is directly tied to harmony, synergy, and well-being. It shifts the incentive from extraction to regeneration, creating a self-regulating planetary economy.</p>
-                </div>
+        <main class="py-16 md:py-20">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
 
-                <div class="card rounded-lg shadow-2xl p-6 md:col-span-1 lg:col-span-2">
-                    <h3 class="text-xl font-bold text-white mb-4">A New Foundation for Value</h3>
-                    <p class="text-[#E0E1DD] mb-6">Unlike traditional cryptocurrencies that rely on computation (Proof-of-Work) or capital (Proof-of-Stake), KRYONIS is generated through a revolutionary new protocol: Proof-of-Coherence. This measures and rewards systems moving towards greater harmony and less entropy.</p>
-                     <div class="chart-container">
-                        <canvas id="valueFoundationChart"></canvas>
+                <div data-aos="fade-up" class="card rounded-xl shadow-2xl p-8 md:col-span-2 lg:col-span-3">
+                    <h2 class="text-3xl font-bold text-white mb-6 text-center">The Problem: A Crisis of Incoherence</h2>
+                    <p class="text-center text-lg text-[#E0E0E0] max-w-4xl mx-auto mb-10">Our current global systems are programmed for a future we don't want. The primary metric for success, Gross Domestic Product (GDP), is dangerously flawed—it values destruction and is blind to ecological health and social well-being, creating a disconnect between perceived progress and reality.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                        <div class="p-6 bg-[#0D0D0F] rounded-lg">
+                            <h3 class="font-bold text-xl text-red-400 mb-4">GDP: The Extractive Model</h3>
+                            <ul class="space-y-3 text-sm text-left">
+                                <li class="flex items-start"><span class="w-8 flex-shrink-0 text-lg">🛢️</span><span>An oil spill and its cleanup both <strong class="font-bold">increase</strong> GDP.</span></li>
+                                <li class="flex items-start"><span class="w-8 flex-shrink-0 text-lg">🌳</span><span>Deforestation for short-term profit <strong class="font-bold">increases</strong> GDP.</span></li>
+                                <li class="flex items-start"><span class="w-8 flex-shrink-0 text-lg">💨</span><span>Values the vital work of ecosystems and communities at <strong class="font-bold">zero</strong>.</span></li>
+                            </ul>
+                        </div>
+                        <div class="p-6 bg-[#0D0D0F] rounded-lg">
+                            <h3 class="font-bold text-xl text-[#29D3E8] mb-4">GCI: The Regenerative Model</h3>
+                            <ul class="space-y-3 text-sm text-left">
+                                <li class="flex items-start"><span class="w-8 flex-shrink-0 text-lg">🏞️</span><span>A pristine ecosystem is a high-value, <strong class="font-bold">yield-bearing</strong> asset.</span></li>
+                                <li class="flex items-start"><span class="w-8 flex-shrink-0 text-lg">🌱</span><span>Reforestation and conservation directly <strong class="font-bold">generate</strong> value.</span></li>
+                                <li class="flex items-start"><span class="w-8 flex-shrink-0 text-lg">💡</span><span>Social trust and scientific breakthroughs are <strong class="font-bold">quantifiable</strong> assets.</span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card rounded-lg shadow-2xl p-6 flex flex-col items-center justify-center text-center">
+                <div data-aos="fade-up" class="card rounded-xl shadow-2xl p-8 md:col-span-2 lg:col-span-3">
+                    <h2 class="text-3xl font-bold text-white mb-4">The Solution: A New Economic Paradigm</h2>
+                    <p class="text-lg text-[#E0E0E0]">KRYONIS introduces the Coherence Standard, a generative model where value is directly tied to harmony, synergy, and well-being. It shifts the incentive from extraction to regeneration, creating a self-regulating planetary economy.</p>
+                </div>
+
+                <div data-aos="fade-right" class="card rounded-xl shadow-2xl p-8 md:col-span-1 lg:col-span-2">
+                    <h3 class="text-xl font-bold text-white mb-6">A New Foundation for Value</h3>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <div class="chart-container mx-auto" style="height: 280px; max-width: 280px;">
+                                <canvas id="valueFoundationChart"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                             <p class="text-[#E0E0E0] mb-6">Unlike traditional cryptocurrencies that rely on computation or capital, KRYONIS is generated via Proof-of-Coherence, rewarding systems that move towards greater harmony.</p>
+                            <ul class="space-y-3 text-sm text-[#E0E0E0]">
+                                <li class="flex items-center">
+                                    <span class="w-4 h-4 rounded-full mr-3" style="background-color: #6C63FF;"></span>
+                                    KRYONIS (Proof-of-Coherence)
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="w-4 h-4 rounded-full mr-3" style="background-color: #29D3E8;"></span>
+                                    Ethereum (Proof-of-Stake)
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="w-4 h-4 rounded-full mr-3" style="background-color: #8A7CFF;"></span>
+                                    Bitcoin (Proof-of-Work)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-left" class="card rounded-xl shadow-2xl p-8 flex flex-col items-center justify-center text-center">
                     <h3 class="text-xl font-bold text-white mb-2">The Coherence Standard</h3>
-                    <p class="text-5xl font-black text-[#778DA9] my-4">1 KRYONX</p>
-                    <p class="text-[#E0E1DD]">Represents a single, verifiable unit of coherent resonance within the planetary grid.</p>
-                    <div class="mt-6 space-y-4 text-left w-full">
-                       <div class="flex items-start space-x-3"><span class="text-2xl text-[#778DA9]">&#9679;</span><p><strong class="text-white">Store of Value:</strong> Stores the value of harmony.</p></div>
-                       <div class="flex items-start space-x-3"><span class="text-2xl text-[#778DA9]">&#9679;</span><p><strong class="text-white">Medium of Exchange:</strong> Native currency for the Grid.</p></div>
-                       <div class="flex items-start space-x-3"><span class="text-2xl text-[#778DA9]">&#9679;</span><p><strong class="text-white">Unit of Account:</strong> A baseline quantum of constructive interference.</p></div>
-                    </div>
+                    <p class="text-5xl font-black text-[#8A7CFF] my-4">1 KRYONX</p>
+                    <p class="text-[#E0E0E0]">Represents a single, verifiable unit of coherent resonance within the planetary grid.</p>
                 </div>
 
-                <div class="card rounded-lg shadow-2xl p-6 md:col-span-2 lg:col-span-3">
-                    <h2 class="text-2xl font-bold text-white mb-4 text-center">The Proof-of-Coherence Protocol</h2>
-                    <p class="text-center text-[#E0E1DD] max-w-2xl mx-auto mb-8">KRYONX is generated by validating positive shifts in coherence across three interconnected layers of reality, measured by a decentralized network of noetic sensors.</p>
-                    <div class="flex flex-col md:flex-row justify-center items-center md:items-stretch gap-6 text-center">
-                        <div class="w-full md:w-1/3 p-4 border border-[#415A77] rounded-lg">
-                            <div class="text-4xl mb-2">&#127757;</div>
-                            <h4 class="font-bold text-lg text-white">Biospheric Layer</h4>
-                            <p class="text-sm text-[#E0E1DD]">Measures ecological health, biodiversity, and planetary homeostasis. Reforestation and ocean cleanup projects generate KRYONX.</p>
+                <div data-aos="fade-up" class="card rounded-xl shadow-2xl p-8 md:col-span-2 lg:col-span-3">
+                    <h2 class="text-3xl font-bold text-white mb-4 text-center">The KRYONIS Technology Stack</h2>
+                     <p class="text-center text-lg text-[#E0E0E0] max-w-4xl mx-auto mb-10">KRYONIS functions as a planetary-scale nervous system, integrating three layers of frontier technology to measure, record, and process the state of the world in real-time.</p>
+                    <div class="flex flex-col md:flex-row justify-center items-center md:items-stretch gap-8 text-center">
+                        <div class="w-full md:w-1/3 p-6 border border-white/10 rounded-lg">
+                            <div class="text-5xl mb-3">🛰️</div>
+                            <h4 class="font-bold text-lg text-white">The Sensory Layer (Nerves)</h4>
+                            <p class="text-sm text-[#E0E0E0] mt-2">A global, decentralized network of sensors that acts as the system's interface with physical reality.</p>
                         </div>
-                        <div class="text-2xl text-[#778DA9] self-center transform rotate-90 md:rotate-0">&rarr;</div>
-                        <div class="w-full md:w-1/3 p-4 border border-[#415A77] rounded-lg">
-                             <div class="text-4xl mb-2">&#128187;</div>
-                            <h4 class="font-bold text-lg text-white">Technological Layer</h4>
-                            <p class="text-sm text-[#E0E1DD]">Measures efficiency, open-source collaboration, and data harmony in technological systems. Creating resilient, decentralized networks generates KRYONX.</p>
+                        <div class="w-full md:w-1/3 p-6 border border-white/10 rounded-lg">
+                             <div class="text-5xl mb-3">🔗</div>
+                            <h4 class="font-bold text-lg text-white">The Ledger Layer (Skeleton)</h4>
+                            <p class="text-sm text-[#E0E0E0] mt-2">A quantum-resistant distributed ledger that provides an immutable and secure foundation.</p>
                         </div>
-                         <div class="text-2xl text-[#778DA9] self-center transform rotate-90 md:rotate-0">&rarr;</div>
-                        <div class="w-full md:w-1/3 p-4 border border-[#415A77] rounded-lg">
-                             <div class="text-4xl mb-2">&#129504;</div>
-                            <h4 class="font-bold text-lg text-white">Noetic Layer</h4>
-                            <p class="text-sm text-[#E0E1DD]">Measures collective intelligence, social trust, and conscious harmony. Art, scientific breakthroughs, and community collaboration generate KRYONX.</p>
+                        <div class="w-full md:w-1/3 p-6 border border-white/10 rounded-lg">
+                             <div class="text-5xl mb-3">🧠</div>
+                            <h4 class="font-bold text-lg text-white">The Processing Layer (Brain)</h4>
+                            <p class="text-sm text-[#E0E0E0] mt-2">The Quantum Supremacy Grid—a quantum computing layer for large-scale analysis.</p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="card rounded-lg shadow-2xl p-6">
-                    <h3 class="text-xl font-bold text-white mb-4">Tokenomics & Allocation</h3>
-                    <p class="text-[#E0E1DD] mb-6">A fixed supply of 100 billion KRYONX is designed to incentivize long-term growth of the Coherence Economy and reward participants who contribute to planetary well-being.</p>
-                    <div class="chart-container">
-                        <canvas id="tokenomicsChart"></canvas>
                     </div>
                 </div>
                 
-                 <div class="card rounded-lg shadow-2xl p-6 md:col-span-1 lg:col-span-2">
-                    <h3 class="text-xl font-bold text-white mb-4">Civilizational Impact: The Regenerative Future</h3>
-                    <p class="text-[#E0E1DD] mb-6">The KRYONIS framework fundamentally redefines value, creating a world where economic prosperity is inseparable from ecological and social health.</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
-                        <div class="p-4 bg-[#0D1B2A] rounded-lg">
-                            <h4 class="text-lg font-bold text-white">Quantifiable Subjectivity</h4>
-                            <p class="text-sm text-[#E0E1DD]">Creativity, compassion, and insight become directly valuable and quantifiable assets, rewarding individuals for their state of being.</p>
+                <div data-aos="fade-up" class="card rounded-xl shadow-2xl p-8 md:col-span-2 lg:col-span-3">
+                    <h2 class="text-3xl font-bold text-white mb-4 text-center">The Proof-of-Coherence Protocol</h2>
+                    <p class="text-center text-lg text-[#E0E0E0] max-w-3xl mx-auto mb-10">KRYONX is generated by validating positive shifts in coherence across three interconnected layers of reality.</p>
+                    <div class="flex flex-col md:flex-row justify-center items-center md:items-stretch gap-8 text-center">
+                        <div class="w-full md:w-1/3 p-6 bg-[#0D0D0F] rounded-lg">
+                            <div class="text-5xl mb-3">🌍</div>
+                            <h4 class="font-bold text-lg text-white">Biospheric Layer</h4>
+                            <p class="text-sm text-[#E0E0E0] mt-2">Measures ecological health, biodiversity, and planetary homeostasis.</p>
                         </div>
-                         <div class="p-4 bg-[#0D1B2A] rounded-lg">
-                            <h4 class="text-lg font-bold text-white">End of Extraction</h4>
-                            <p class="text-sm text-[#E0E1DD]">The incentive structure shifts from extracting resources to generating ecological health, social trust, and collective intelligence.</p>
+                        <div class="w-full md:w-1/3 p-6 bg-[#0D0D0F] rounded-lg">
+                             <div class="text-5xl mb-3">🤖</div>
+                            <h4 class="font-bold text-lg text-white">Technological Layer</h4>
+                            <p class="text-sm text-[#E0E0E0] mt-2">Measures efficiency, open-source collaboration, and data harmony.</p>
                         </div>
-                         <div class="p-4 bg-[#0D1B2A] rounded-lg">
-                            <h4 class="text-lg font-bold text-white">Value = Coherence</h4>
-                            <p class="text-sm text-[#E0E1DD]">The economy becomes a planetary nervous system, rewarding nodes that resonate with and contribute to the health of the whole system.</p>
+                        <div class="w-full md:w-1/3 p-6 bg-[#0D0D0F] rounded-lg">
+                             <div class="text-5xl mb-3">🧘</div>
+                            <h4 class="font-bold text-lg text-white">Noetic Layer</h4>
+                            <p class="text-sm text-[#E0E0E0] mt-2">Measures collective intelligence, social trust, and conscious harmony.</p>
                         </div>
-                         <div class="p-4 bg-[#0D1B2A] rounded-lg">
-                            <h4 class="text-lg font-bold text-white">Markets of Resonance</h4>
-                            <p class="text-sm text-[#E0E1DD]">New markets emerge where assets like clean air, social trust, and artistic inspiration are traded and valued.</p>
+                    </div>
+                </div>
+
+                <div id="tokenomics" data-aos="fade-right" class="card rounded-xl shadow-2xl p-8 lg:col-span-2">
+                    <h3 class="text-xl font-bold text-white mb-6">Tokenomics & Allocation</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <div class="chart-container mx-auto" style="height: 280px; max-width: 280px;">
+                                <canvas id="tokenomicsChart"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[#E0E0E0] mb-6">A fixed supply of 100 billion KRYONX is designed to incentivize long-term growth of the Coherence Economy.</p>
+                            <ul class="space-y-3 text-sm text-[#E0E0E0]">
+                                <li class="flex items-center">
+                                    <span class="w-4 h-4 rounded-full mr-3" style="background-color: #6C63FF;"></span>
+                                    <span class="font-bold text-white mr-2">50%</span> Ecosystem & Coherence Rewards
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="w-4 h-4 rounded-full mr-3" style="background-color: #8A7CFF;"></span>
+                                    <span class="font-bold text-white mr-2">20%</span> Foundation & Team
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="w-4 h-4 rounded-full mr-3" style="background-color: #29D3E8;"></span>
+                                    <span class="font-bold text-white mr-2">20%</span> Public & Private Sale
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="w-4 h-4 rounded-full mr-3" style="background-color: #E0E0E0;"></span>
+                                    <span class="font-bold text-white mr-2">10%</span> Liquidity & Partnerships
+                                </li>
+                            </ul>
+                             <p class="text-xs text-gray-500 mt-6 italic">*This initial supply represents a foundational valuation of a new asset class: Planetary Coherence Capital.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="governance" data-aos="fade-left" class="card rounded-xl shadow-2xl p-8">
+                    <h3 class="text-xl font-bold text-white mb-4">Governance: The Bicameral DAO</h3>
+                    <p class="text-sm text-[#E0E0E0] mb-6">To avoid the pitfalls of early DAOs, KRYONIS implements a two-house governance model to separate technical decisions from ethical oversight.</p>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-[#0D0D0F] rounded-lg">
+                            <h4 class="font-bold text-white">The Technical Council</h4>
+                             <p class="text-xs text-[#E0E0E0] mt-1">Governed by KRYONX token holders. Manages protocol upgrades and network parameters.</p>
+                        </div>
+                        <div class="p-4 bg-[#0D0D0F] rounded-lg">
+                            <h4 class="font-bold text-white">The Civilizational Council</h4>
+                            <p class="text-xs text-[#E0E0E0] mt-1">A reputation-based body of experts in ethics, ecology, and science. Provides long-term strategic and ethical direction.</p>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="card rounded-lg shadow-2xl p-6 md:col-span-2 lg:col-span-3">
-                    <h2 class="text-2xl font-bold text-white mb-6 text-center">Roadmap: 2025 – 2050</h2>
-                    <div class="relative w-full">
-                        <div class="absolute left-1/2 h-full w-0.5 bg-[#415A77] hidden md:block"></div>
-                        <div class="space-y-12 md:space-y-0">
-                            <div class="md:grid md:grid-cols-2 md:gap-8 items-center">
-                                <div class="text-center md:text-right md:pr-8">
-                                    <h4 class="text-xl font-bold text-white">Phase 1: Foundation (2025-2030)</h4>
-                                    <p class="text-sm text-[#E0E1DD]">Deploy Proof-of-Coherence protocol. Launch pilot projects in ecological restoration and decentralized science (DeSci). Establish the KRYONIS DAO.</p>
-                                </div>
-                                <div class="hidden md:block"></div>
+                <div id="roadmap" data-aos="fade-up" class="card rounded-xl shadow-2xl p-8 md:col-span-2 lg:col-span-3">
+                    <h2 class="text-3xl font-bold text-white mb-8 text-center">Roadmap: 2025 – 2050</h2>
+                    <div>
+                        <div id="roadmap-nav" class="flex flex-wrap gap-4 border-b border-white/10 mb-6">
+                            <div id="phase-1-btn" class="roadmap-phase active p-4">
+                                <h4 class="font-bold">Phase 1: Foundation (2025-2030)</h4>
                             </div>
-                            <div class="md:grid md:grid-cols-2 md:gap-8 items-center">
-                                <div class="hidden md:block"></div>
-                                <div class="text-center md:text-left md:pl-8">
-                                    <h4 class="text-xl font-bold text-white">Phase 2: Growth (2031-2040)</h4>
-                                    <p class="text-sm text-[#E0E1DD]">Expand Markets of Resonance. Integrate with smart cities and autonomous supply chains. Achieve mainstream adoption in regenerative industries.</p>
-                                </div>
+                            <div id="phase-2-btn" class="roadmap-phase p-4">
+                                <h4 class="font-bold">Phase 2: Growth (2031-2040)</h4>
                             </div>
-                            <div class="md:grid md:grid-cols-2 md:gap-8 items-center">
-                                <div class="text-center md:text-right md:pr-8">
-                                    <h4 class="text-xl font-bold text-white">Phase 3: Planetary Scale (2041-2050)</h4>
-                                    <p class="text-sm text-[#E0E1DD]">KRYONIS becomes a global standard for valuing ecological and social assets. The system functions as a planetary-scale civilizational operating system.</p>
-                                </div>
-                                 <div class="hidden md:block"></div>
+                            <div id="phase-3-btn" class="roadmap-phase p-4">
+                                <h4 class="font-bold">Phase 3: Planetary Scale (2041-2050)</h4>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div id="phase-1-content" class="roadmap-phase-content active p-6 bg-[rgba(255,255,255,0.05)] rounded-lg">
+                                <h4 class="text-xl font-bold text-white mb-2">Focus: Validation & Alliance-Building</h4>
+                                <p class="text-sm text-[#E0E0E0]">Deploy Proof-of-Coherence protocol. Launch pilot projects in ecological restoration and decentralized science (DeSci). Establish the KRYONIS DAO and forge foundational partnerships with universities and research institutions.</p>
+                            </div>
+                            <div id="phase-2-content" class="roadmap-phase-content p-6 bg-[rgba(255,255,255,0.05)] rounded-lg">
+                                <h4 class="text-xl font-bold text-white mb-2">Focus: Network Growth & Market Creation</h4>
+                                <p class="text-sm text-[#E0E0E0]">Aggressively expand the global sensor grid. Onboard the first major corporate partners. Launch the first regulated Global Coherence Exchanges (GCE) and tokenize pilot projects as Bio-Resonance-Linked Assets (BRLAs).</p>
+                            </div>
+                            <div id="phase-3-content" class="roadmap-phase-content p-6 bg-[rgba(255,255,255,0.05)] rounded-lg">
+                                <h4 class="text-xl font-bold text-white mb-2">Focus: Planetary Integration & Standardization</h4>
+                                <p class="text-sm text-[#E0E0E0]">The Gross Coherence Index (GCI) is adopted as a key global metric for national performance, complementing and superseding GDP. The KRYONIS network becomes ubiquitous, a global public utility for the entire regenerative economy.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                 <div class="card rounded-lg shadow-2xl p-6 md:col-span-2 lg:col-span-3 text-center">
-                    <h2 class="text-2xl font-bold text-white mb-4">Join the Coherence Economy</h2>
-                    <p class="text-[#E0E1DD] max-w-2xl mx-auto">KRYONIS is more than an asset; it's an invitation to co-create a future where human and planetary prosperity are one and the same. Become a civilizational architect.</p>
-                    <button class="mt-6 bg-[#415A77] hover:bg-[#778DA9] text-white font-bold py-3 px-8 rounded-lg transition duration-300">Explore the Whitepaper</button>
+
+                 <div data-aos="fade-up" class="card rounded-xl shadow-2xl p-8 md:col-span-2 lg:col-span-3">
+                    <h2 class="text-3xl font-bold text-white mb-6">Risks & Mitigation</h2>
+                    <p class="text-lg text-[#E0E0E0] mb-6">A project of this magnitude entails significant risks. Our strategy is built on transparency and robust mitigation.</p>
+                    <ul class="space-y-4 text-sm text-[#E0E0E0] list-inside">
+                        <li><strong class="font-bold text-white">Technological Feasibility:</strong> The roadmap is aligned with projected advances in quantum computing, using classical HPC and NISQ-era devices in early phases.</li>
+                        <li><strong class="font-bold text-white">Governance & Centralization:</strong> The bicameral DAO structure is designed to prevent protocol capture by separating capital-based power from reputation-based wisdom.</li>
+                        <li><strong class="font-bold text-white">Geopolitical Resistance:</strong> A "coalition of the willing" strategy focuses on building alliances with aligned nations and institutions to demonstrate superior outcomes before seeking global adoption.</li>
+                         <li><strong class="font-bold text-white">Ethical Considerations:</strong> A strict, non-negotiable ethical framework prioritizing individual sovereignty, data ownership, and anonymization is core to the protocol's design.</li>
+                    </ul>
+                </div>
+                
+                 <div data-aos="fade-up" id="contact" class="card rounded-xl shadow-2xl p-8 md:col-span-2 lg:col-span-3 text-center">
+                    <h2 class="text-3xl font-bold text-white mb-4">Join the Coherence Economy</h2>
+                    <p class="text-lg text-[#E0E0E0] max-w-3xl mx-auto">KRYONIS is more than an asset; it's an invitation to co-create a future where human and planetary prosperity are one and the same. Become a civilizational architect.</p>
+                    <div class="mt-8 flex flex-wrap justify-center gap-4">
+                        <button class="bg-[#6C63FF] hover:bg-[#29D3E8] text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg kryonis-glow-subtle">Explore Whitepaper</button>
+                        <button class="border border-[#6C63FF] hover:bg-[#6C63FF] hover:text-white text-[#E0E0E0] font-bold py-3 px-8 rounded-lg transition duration-300 text-lg">Download Litepaper</button>
+                    </div>
                 </div>
 
             </div>
         </main>
-    </div>
 
+        <footer class="border-t border-white/10 mt-16">
+            <div class="container mx-auto py-16 px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-sm">
+                    <div class="space-y-4">
+                        <h2 class="text-2xl font-bold text-white">KRYONIS</h2>
+                        <p class="text-gray-400">Value = Coherence. The Coherence Economy for the Quantum Supremacy Grid.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white tracking-wider uppercase">Navigation</h3>
+                        <ul class="mt-4 space-y-2 text-gray-400">
+                            <li><a href="#tokenomics" class="nav-link">Tokenomics</a></li>
+                            <li><a href="#" class="nav-link">Whitepaper</a></li>
+                            <li><a href="#" class="nav-link">Litepaper</a></li>
+                            <li><a href="#roadmap" class="nav-link">Roadmap</a></li>
+                            <li><a href="#governance" class="nav-link">Governance</a></li>
+                            <li><a href="#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white tracking-wider uppercase">Community</h3>
+                        <ul class="mt-4 space-y-3 text-gray-400">
+                           <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg><a href="#" class="nav-link">Telegram (KRYONIS QNTM)</a></li>
+                           <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg><a href="#" class="nav-link">X / Twitter (@kryoniseconomy)</a></li>
+                        </ul>
+                    </div>
+                     <div>
+                        <h3 class="font-bold text-white tracking-wider uppercase">Contact</h3>
+                        <ul class="mt-4 space-y-3 text-gray-400">
+                             <li class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg><a href="mailto:hq@kryonis.global" class="nav-link">hq@kryonis.global</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-16 pt-8 border-t border-white/10 text-center">
+                    <p class="text-xs text-gray-600">© 2025 KRYONIS Sovereign Systems Limited – All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        const tooltipCallback = {
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        title: function(tooltipItems) {
-                            const item = tooltipItems[0];
-                            let label = item.chart.data.labels[item.dataIndex];
-                            if (Array.isArray(label)) {
-                              return label.join(' ');
-                            } else {
-                              return label;
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                duration: 800,
+                once: true,
+            });
+
+            const kryonis_dark = '#0B0C10';
+            const kryonis_primary = '#6C63FF';
+            const kryonis_secondary = '#29D3E8';
+            const kryonis_accent = '#8A7CFF';
+            const kryonis_text = '#E0E0E0';
+
+            // Value Foundation Chart
+            const valueFoundationCtx = document.getElementById('valueFoundationChart').getContext('2d');
+            const valueFoundationChart = new Chart(valueFoundationCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['KRYONIS (Proof-of-Coherence)', 'Ethereum (Proof-of-Stake)', 'Bitcoin (Proof-of-Work)'],
+                    datasets: [{
+                        label: 'Basis of Value',
+                        data: [33.3, 33.3, 33.3],
+                        backgroundColor: [kryonis_primary, kryonis_secondary, kryonis_accent],
+                        borderColor: kryonis_dark,
+                        borderWidth: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: (tooltipItems) => {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    return Array.isArray(label) ? label.join(' ') : label;
+                                }
                             }
                         }
                     }
-                },
-                legend: {
-                    labels: {
-                        color: '#E0E1DD'
-                    }
-                }
-            }
-        };
-
-        const wrapLabel = (label) => {
-            const maxLength = 16;
-            if (label.length <= maxLength) return label;
-            
-            const words = label.split(' ');
-            const lines = [];
-            let currentLine = '';
-
-            words.forEach(word => {
-                if ((currentLine + ' ' + word).trim().length > maxLength) {
-                    lines.push(currentLine.trim());
-                    currentLine = word;
-                } else {
-                    currentLine = (currentLine + ' ' + word).trim();
                 }
             });
-            lines.push(currentLine.trim());
-            return lines;
-        };
 
-        const valueFoundationCtx = document.getElementById('valueFoundationChart').getContext('2d');
-        const valueFoundationChart = new Chart(valueFoundationCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['KRYONIS (Proof-of-Coherence)', 'Ethereum (Proof-of-Stake)', 'Bitcoin (Proof-of-Work)'],
-                datasets: [{
-                    label: 'Basis of Value',
-                    data: [33.3, 33.3, 33.3],
-                    backgroundColor: [
-                        '#778DA9',
-                        '#415A77',
-                        '#1B263B'
-                    ],
-                    borderColor: '#0D1B2A',
-                    borderWidth: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%',
-                ...tooltipCallback
-            }
+            // Tokenomics Chart
+            const tokenomicsCtx = document.getElementById('tokenomicsChart').getContext('2d');
+            const tokenomicsChart = new Chart(tokenomicsCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Ecosystem & Coherence Rewards', 'Foundation & Team', 'Public & Private Sale', 'Liquidity & Partnerships'],
+                    datasets: [{
+                        label: 'Token Allocation',
+                        data: [50, 20, 20, 10],
+                        backgroundColor: [kryonis_primary, kryonis_accent, kryonis_secondary, kryonis_text],
+                        borderColor: kryonis_dark,
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: (tooltipItems) => {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    return Array.isArray(label) ? label.join(' ') : label;
+                                },
+                                label: (context) => {
+                                    let label = context.dataset.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed !== null) { label += context.parsed + '%'; }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Interactive Roadmap
+            const phaseButtons = document.querySelectorAll('.roadmap-phase');
+            const phaseContents = document.querySelectorAll('.roadmap-phase-content');
+
+            phaseButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    phaseButtons.forEach(btn => btn.classList.remove('active'));
+                    phaseContents.forEach(content => content.classList.remove('active'));
+
+                    button.classList.add('active');
+                    const contentId = button.id.replace('-btn', '-content');
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
         });
-
-        const tokenomicsCtx = document.getElementById('tokenomicsChart').getContext('2d');
-        const tokenomicsChart = new Chart(tokenomicsCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Ecosystem & Coherence Rewards', 'Foundation & Team', 'Public & Private Sale', 'Liquidity & Partnerships'].map(wrapLabel),
-                datasets: [{
-                    label: 'Token Allocation',
-                    data: [50, 20, 20, 10],
-                     backgroundColor: [
-                        '#415A77',
-                        '#778DA9',
-                        '#1B263B',
-                        '#0D1B2A'
-                    ],
-                    borderColor: '#E0E1DD',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                ...tooltipCallback
-            }
-        });
-
     </script>
 </body>
 </html>
+
